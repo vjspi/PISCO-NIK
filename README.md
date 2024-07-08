@@ -74,5 +74,7 @@ If you use this code, please cite our arXiv paper:
     - `$SLICE` is the slice number
     - `$DEVICE` is the device to run the experiment on
     - Further command line arguments can be found in the `train_sos_kreg.py` file
+  
+      
 All computations were performed using Python 3.10.9 and PyTorch 1.13.1.
 
