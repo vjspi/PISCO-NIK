@@ -1,0 +1,82 @@
+#!/bin/bash
+
+source ~/anaconda3/etc/profile.d/conda.sh
+
+conda init bash
+conda activate nik_mri_clean2
+gpu=0
+epochs=1000
+subjects=(
+# "1"
+# "1cc"
+# "2cc"
+#  "11_knee"
+#  "11_R0"
+# "phantom2echo_6coil_0.33FS"
+# "phantom2echo_6coil_0.5FS"
+ "phantom2echo_6coil_1FS"
+# "phantom2echo_nomotion_6coil_0.33FS"
+# "phantom2echo_nomotion_6coil_1FS"
+# "phantom2echo_nomotion_6coil_0.5FS"
+)
+slices=(
+"29"
+#"30"
+#"31"
+#"32"
+#"33"
+#"34"
+#"35"
+#"36"
+#"37"
+#"38"
+#"39"
+#"40"
+#"41"
+#"42"
+#"43"
+#"44"
+#"45"
+#"46"
+#"47"
+#"48"
+#"49"
+#"50"
+#"51"
+#"52"
+#"53"
+#"54"
+#"55"
+#"56"
+)
+#subject=2
+#slice=20
+
+experiments=(
+#  "configs/kreg/exp_config_basic_phantom.yml"
+  "configs/kreg/exp_config_kreg_phantom.yml"
+                )
+#experiments=(
+##  "configs/reg_exp_images/reg_loss_norm/exp_config_reg_huber.yml"
+#  "configs/reg_exp_images/reg_loss_norm/exp_config_reg_L1.yml"
+##  "configs/reg_exp_images/reg_loss_norm/exp_config_reg_L2.yml"
+##  "configs/reg_exp_images/reg_loss_norm/exp_config_reg_l2pdist.yml"
+#                )
+
+## switch into project directoryscreen -
+echo $PATH
+cd ~/workspace/AbdoNIK/
+pwd
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+
+# Run training for all given experiments
+for exp in "${experiments[@]}"; do
+  for sub in "${subjects[@]}"; do
+    for slice in "${slices[@]}"; do
+      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 1 -g "$gpu" -ep "$epochs" -a 1e-4 -od 1.1 &
+    done
+    wait
+  done
+  wait
+done

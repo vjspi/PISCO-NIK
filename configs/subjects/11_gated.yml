@@ -1,0 +1,13 @@
+## Data root
+data_root: !join [workspace_results/shared/monik/]
+filename: test_reconSoS.npz
+# data config
+subject_name: &subject_name 11_gated
+slice: &slice 20 # 40
+fe_steps: 536
+n_slices: 67
+nc_recon: &nc_recon 26
+#coil_select: [0] #[2,3,4,5,6,7]1
+coil_select: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] #[2,3,4,5,6,7]
+## recon config
+nc: *nc_recon

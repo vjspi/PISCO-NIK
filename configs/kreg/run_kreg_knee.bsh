@@ -1,0 +1,46 @@
+#!/bin/bash
+
+source ~/anaconda3/etc/profile.d/conda.sh
+
+conda init bash
+conda activate nik_mri_clean2
+gpu=1
+epochs=1000
+subjects=(
+# "1"
+# "1cc"
+# "2cc"
+  "11_knee"
+#  "11_R0"
+)
+slices=(
+"10"
+"20"
+)
+
+experiments=(
+#  "configs/kreg/exp_config_kreg_phantom.yml"
+#  "configs/kreg/exp_config_basic_knee.yml"
+  "configs/kreg/exp_config_kreg_knee.yml"
+  )
+
+
+## switch into project directoryscreen -
+echo $PATH
+cd ~/workspace/AbdoNIK/
+pwd
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+
+# Run training for all given experiments
+for exp in "${experiments[@]}"; do
+  for sub in "${subjects[@]}"; do
+    for slice in "${slices[@]}"; do
+      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 1 -g "$gpu" -ep "$epochs" -od 1.1 -a 1e-4 -l 0.1 &
+      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 2 -g "$gpu" -ep "$epochs" -od 1.1 -a 1e-4 -l 0.1 &
+      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 3 -g "$gpu" -ep "$epochs" -od 1.1 -a 1e-4 -l 0.1 &
+#      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 2 -g "$gpu" -ep "$epochs" -od 1.1 -a 1e-4 &
+#      python3 train_sos_kreg.py -c "$exp" -sub "$sub" -s "$slice" -r 3 -g "$gpu" -ep "$epochs" -od 1.1 -a 1e-4 &
+    done
+  done
+done

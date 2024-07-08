@@ -1,0 +1,113 @@
+# experiment summary config
+wandb_entity: !!!ADD_YOUR_WANDB!!!
+wandb_project: &wandb_project AbdoNIK_pisco
+#exp_summary: None
+log_test: True
+exp_summary: wandb
+group_name: &group_name NIK_k-reg
+exp_name: sepbackP_nominibatch_L1dist_cart3_NOtconst_dist1_NoPre_od1.1_temp
+
+results_root: !join [workspace_results/shared/, *wandb_project]
+### Data root
+echo: 0
+#data_root: !join [workspace_results/shared/xcat/]
+#filename: test_reconSoS_2sEcho.npz
+#results_root: !join [workspace_results/shared/, *wandb_project]
+## data config
+#subject_name: &subject_name _phantom
+#slice: &slice 20
+#fe_steps: 448
+#n_slices: 84
+#nc_recon: &nc_recon 1
+#coil_select: [0] #[2,3,4,5,6,7]
+##coil_select: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] #[2,3,4,5,6,7]
+### recon config
+#nc: *nc_recon
+
+# recon config
+nx: 300
+ny: 300
+nnav: 5
+
+## Dataloader
+dataset:
+  module: datasets.radialSoS_sorted
+  name: RadialSoSDataset
+  nav_min: 0
+  nav_max: 0.5
+  nav_drift: True
+  fe_crop: 1       # crop the FE range (resolution is decreased)
+  acc_factor: 1     # cut spokes
+  scale_coils: False
+num_workers: 0
+batch_size: 10000 #30000
+sample_spoke: True
+random_sample: False
+
+## NIK Model Training
+pretrain: False
+#pretrain_group: !join ['ref_cxy_1', '_S', *subject_name]
+#pretrain_exp: !join ['nik']
+num_steps: 1000
+lr: 3e-5
+# encoding
+#encoding: spatial
+encoding:
+  type: STIFF
+  sigma: 1
+  sigma_t: 0.2
+  spat_feat_perc: 0.75
+  pi_factor: True
+## Models
+# model config for mlp - kdata
+model:
+  module: models.siren_sos_kreg
+  name: NIKSiren
+  params:
+    num_layers: 4
+    hidden_features: 512
+    omega_0: 20
+  patch:
+    type: radial_equi_full # cart_fixedt # radial_full # radial_half
+    dist: [1,1]   # x,y for cart | fe,pe for radial
+    size: [3,3]   # x,y for cart | fe,pe for radial
+    exclude_center:  5 # 5*delta_x
+    tconst: False
+  pretrained:
+    pretrain_group: NIK_k-reg
+    pretrain_exp: ref_echo1_NOREG
+    epoch: 200 # lossreg0.1 # 200 #
+#    path: /home/vspieker/workspace_results/shared/AbdoNIK_MC_v2/NIK_k-reg_S_phantom_2echo_6coil_1FS/ref_echo1_NOREG_alpha0.1_Tikh1e-6_L1dist_rad3_fixedt_dist1_NoPre_od1.2_temp_STIFF512_nav0.0:0.5__hdr0.0_slice43_R1/2024-01-22_18-20-35/model_checkpoints/
+#    epoch: 100
+
+
+coord_dim: 3 # and for second network +1 (t)
+#out_dim: *nc_recon
+#scale: 40
+# loss config
+loss_type: hdr_ff #weighted_l1 #weighted_l1
+hdr_eps: 1e-2
+hdr_ff_sigma: 1
+hdr_ff_factor: 0.0
+kreg:
+#  lr: 3e-5
+#  optim: SGD
+  mini_batch: False
+  optim_type: "separate_backP" # "joint_noBack" # "joint_backT" # "joint_noBack"
+  reg_lamda: 0.01
+  loss_norm: L1_dist # L1_real_imag #
+#  loss_norm: L2_pdist #
+  loss_type: L1_dist # shift_mean # shift_median # var
+  loss_filter_std: 2
+  complex_type: mag_phase   # for losses computed on mag this needs to be mag_phase, otherwise loss computed on real
+  overdetermination: 1.1
+  reg_type: Tikhonov
+  reg_alpha: 1e-4
+  max_sets: 30
+  sort_sets: temp
+
+### Reference method
+#xdgrasp:
+#  beta: [0, 0.1]
+#  nMS: 4
+#  method: equal_spokes_no # rel_displacement
