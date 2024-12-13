@@ -2,7 +2,7 @@
 
 **Veronika Spieker**, Hannah Eichhorn, Jonathan K. Stelter, Wenqi Huang, Rickmer F. Braren, Daniel Rückert, Francisco Sahli Costabal, Kerstin Hammernik, Claudia Prieto, Dimitrios C. Karampinos, Julia A. Schnabel
 
-Accepted at [MICCAI 2024](https://conferences.miccai.org/2024/) | [preprint](https://arxiv.org/abs/2404.08350)
+Accepted at [MICCAI 2024](https://conferences.miccai.org/2024/) | [paper](https://link.springer.com/chapter/10.1007/978-3-031-72104-5_59)
 
 
 
@@ -24,15 +24,21 @@ Refinement · Self-Supervised Learning · Implicit Neural Representations
 
 
 ## Citation
-If you use this code, please cite our arXiv paper:
+If you use this code, please cite our paper:
 
 ```
-@misc{Spieker_2024_arxiv,
- title = {Self-Supervised k-Space Regularization for Motion-Resolved Abdominal MRI Using Neural Implicit k-Space Representations},
- author = {Spieker, Veronika and Eichhorn, Hannah and Stelter, Jonathan K. and Huang, Wenqi and Braren, Rickmer F. and Rueckert, Daniel and Costabal, Francisco Sahli and Hammernik, Kerstin and Prieto, Claudia and Karampinos, Dimitrios C. and Schnabel, Julia A.},
- year={2024},
- eprint={2404.08350},
- archivePrefix={arXiv},
+@incollection{Spieker_2024_pisco,
+ author = {Spieker, Veronika and Eichhorn, Hannah and Stelter, Jonathan K. and Huang, Wenqi and Braren, Rickmer F. and Rueckert, Daniel and {Sahli Costabal}, Francisco and Hammernik, Kerstin and Prieto, Claudia and Karampinos, Dimitrios C. and Schnabel, Julia A.},
+ title = {Self-supervised k-Space Regularization for Motion-Resolved Abdominal MRI Using Neural Implicit k-Space Representations},
+ pages = {614--624},
+ volume = {15007},
+ publisher = {{Springer International Publishing AG}},
+ isbn = {978-3-031-72103-8},
+ series = {Lecture Notes in Computer Science},
+ booktitle = {Medical Image Computing and Computer Assisted Intervention - MICCAI 2024},
+ year = {2024},
+ address = {Cham},
+ doi = {10.1007/978-3-031-72104-5{\_}59}
 }
 ```
 
