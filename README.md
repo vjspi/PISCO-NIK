@@ -1,3 +1,9 @@
+# Updates
+
+Jan 2026: This is the repo for reconstruction the distance-based loss function $L_{PISCO,dist}$. For a more general overview of PISCO, extensive validations and an improved version PISCO loss ($L_{PISCO,red}$) please check out the following publication and code base: [Journal Paper](https://doi.org/10.1016/j.media.2025.103890)| [Code](https://github.com/vjspi/PISCO) 
+
+
+
 # Self-Supervised k-Space Regularization for Motion-Resolved Abdominal MRI Using Neural Implicit k-Space Representations
 
 **Veronika Spieker**, Hannah Eichhorn, Jonathan K. Stelter, Wenqi Huang, Rickmer F. Braren, Daniel Rückert, Francisco Sahli Costabal, Kerstin Hammernik, Claudia Prieto, Dimitrios C. Karampinos, Julia A. Schnabel
